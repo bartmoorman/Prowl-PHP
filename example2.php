@@ -4,7 +4,7 @@ require_once('prowl.php');
 
 $prowl = new Prowl();
 
-$shortopts = 'k:a:e:d:u:p';
+$shortopts = 'k:a:e:d:u:p:';
 $longopts = array('apikey:', 'application:', 'event:', 'description:', 'url:', 'priority:');
 $options = getopt($shortopts, $longopts);
 
