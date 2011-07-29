@@ -19,10 +19,11 @@ class Prowl
 	private $event = null;
 	private $description = null;
 
+	private $debug = false;
 	private $error = false;
 
-	public $remaining = 0;
-	public $resetdate = 0;
+	private $remaining = 0;
+	private $resetdate = 0;
 
 	public function addApiKey($apikey)
 	{
@@ -80,8 +81,34 @@ class Prowl
 			echo 'description must be 10,000 characters or less!' . PHP_EOL;
 			return false;
 		else:
-			$this->description = $description;
+			$this->description = str_replace('\n', PHP_EOL, $description);
 			return true;
+		endif;
+	}
+
+	public function setDebug($debug)
+	{
+		$this->debug = filter_var($debug, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+	}
+
+	public function getRemaining()
+	{
+		if(!empty($this->remaining)):
+			return $this->remaining;
+		else:
+			return false;
+		endif;
+	}
+	public function getResetDate($format = null)
+	{
+		if(!empty($this->resetdate)):
+			if(!empty($format)):
+				return date($format, $this->resetdate);
+			else:
+				return $this->resetdate;
+			endif;
+		else:
+			return false;
 		endif;
 	}
 
