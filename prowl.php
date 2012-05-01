@@ -160,7 +160,7 @@ class Prowl
 				CURLOPT_FOLLOWLOCATION => true,
 				CURLOPT_POST => true,
 				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_POSTFIELDS => $this->fields,
+				CURLOPT_POSTFIELDS => http_build_query($this->fields),
 				CURLOPT_URL => $this->api . 'add'
 			);
 
