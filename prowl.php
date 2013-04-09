@@ -27,63 +27,63 @@ class Prowl
 
 	public function addApiKey($apikey)
 	{
-		if(strlen($apikey) != 40):
+		if (strlen($apikey) != 40) {
 			echo 'apikey must be exactly 40 characters!' . PHP_EOL;
 			return false;
-		else:
+		} else {
 			$this->apikeys[] = $apikey;
 			return true;
-		endif;
+		}
 	}
 	public function setPriority($priority)
 	{
-		if($priority > 2 || $priority < -2):
+		if ($priority > 2 || $priority < -2) {
 			echo 'priority must be between 2 and -2!' . PHP_EOL;
 			return false;
-		else:
+		} else {
 			$this->priority = $priority;
 			return true;
-		endif;
+		}
 	}
 	public function setUrl($url)
 	{
-		if(strlen($url) > 512):
+		if (strlen($url) > 512) {
 			echo 'url must be 512 characters or less!' . PHP_EOL;
 			return false;
-		else:
+		} else {
 			$this->url = $url;
 			return true;
-		endif;
+		}
 	}
 	public function setApplication($application)
 	{
-		if(strlen($application) > 256):
+		if (strlen($application) > 256) {
 			echo 'application must be 256 characters or less!' . PHP_EOL;
 			return false;
-		else:
+		} else {
 			$this->application = $application;
 			return true;
-		endif;
+		}
 	}
 	public function setEvent($event)
 	{
-		if(strlen($event) > 1024):
+		if (strlen($event) > 1024) {
 			echo 'event must be 1,024 characters or less!' . PHP_EOL;
 			return false;
-		else:
+		} else {
 			$this->event = $event;
 			return true;
-		endif;
+		}
 	}
 	public function setDescription($description)
 	{
-		if(strlen($description) > 10000):
+		if (strlen($description) > 10000) {
 			echo 'description must be 10,000 characters or less!' . PHP_EOL;
 			return false;
-		else:
+		} else {
 			$this->description = str_replace('\n', PHP_EOL, $description);
 			return true;
-		endif;
+		}
 	}
 
 	public function setDebug($debug)
@@ -93,67 +93,67 @@ class Prowl
 
 	public function getRemaining()
 	{
-		if(!empty($this->remaining)):
+		if (!empty($this->remaining)) {
 			return $this->remaining;
-		else:
+		} else {
 			return false;
-		endif;
+		}
 	}
 	public function getResetDate($format = null)
 	{
-		if(!empty($this->resetdate)):
-			if(!empty($format)):
+		if (!empty($this->resetdate)) {
+			if (!empty($format)) {
 				return date($format, $this->resetdate);
-			else:
+			} else {
 				return $this->resetdate;
-			endif;
-		else:
+			}
+		} else {
 			return false;
-		endif;
+		}
 	}
 
 	private function prepare()
 	{
-		if(!empty($this->apikeys)):
+		if (!empty($this->apikeys)) {
 			$this->fields['apikey'] = implode(',', $this->apikeys);
-		else:
+		} else {
 			echo 'apikey is required!' . PHP_EOL;
 			$this->error = true;
-		endif;
+		}
 
-		if(!empty($this->priority)):
+		if (!empty($this->priority)) {
 			$this->fields['priority'] = $this->priority;
-		endif;
+		}
 
-		if(!empty($this->url)):
+		if (!empty($this->url)) {
 			$this->fields['url'] = $this->url;
-		endif;
+		}
 
-		if(!empty($this->application)):
+		if (!empty($this->application)) {
 			$this->fields['application'] = $this->application;
-		else:
+		} else {
 			echo 'application is required!' . PHP_EOL;
 			$this->error = true;
-		endif;
+		}
 
-		if(!empty($this->event) || !empty($this->description)):
-			if(!empty($this->event)):
+		if (!empty($this->event) || !empty($this->description)) {
+			if (!empty($this->event)) {
 				$this->fields['event'] = $this->event;
-			endif;
-
-			if(!empty($this->description)):
+			}
+			
+			if (!empty($this->description)) {
 				$this->fields['description'] = $this->description;
-			endif;
-		else:
+			}
+		} else {
 			echo 'event or description is required!' . PHP_EOL;
 			$this->error = true;
-		endif;
+		}
 
 		return $this->error ? false : true;
 	}
 	public function send()
 	{
-		if($this->prepare()):
+		if ($this->prepare()) {
 			$ch = curl_init();
 
 			$options = array(
@@ -170,18 +170,18 @@ class Prowl
 
 			$xml = new SimpleXMLElement($response);
 
-			if($xml->success):
+			if ($xml->success) {
 				$this->remaining = $xml->success->attributes()->remaining;
 				$this->resetdate = $xml->success->attributes()->resetdate;
 				return true;
-			else:
+			} else {
 				echo $xml->error->attributes()->code . ' ' . $xml->error . PHP_EOL;
 				return false;
-			endif;
-		else:
+			}
+		} else {
 			echo 'unable to send notification!' . PHP_EOL;
 			return false;
-		endif;
+		}
 	}
 }
 ?>
