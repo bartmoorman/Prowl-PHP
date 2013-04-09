@@ -8,8 +8,8 @@ $shortopts = 'k:a:e:d:u:p:';
 $longopts = array('apikey:', 'application:', 'event:', 'description:', 'url:', 'priority:');
 $options = getopt($shortopts, $longopts);
 
-foreach($options as $k => $v):
-	switch($k):
+foreach ($options as $k => $v) {
+	switch ($k) {
 		case 'k':
 		case 'apikey':
 			$prowl->addApiKey($v);
@@ -34,8 +34,8 @@ foreach($options as $k => $v):
 		case 'priority':
 			$prowl->setPriority($v);
 			break;
-	endswitch;
-endforeach;
+	}
+}
 
 $prowl->send();
 ?>
