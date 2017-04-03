@@ -1,6 +1,7 @@
 #!/usr/bin/php
 <?php
-require_once('prowl.php');
+//This example is useful for running via CLI
+require_once('inc/prowl.inc');
 
 $prowl = new Prowl();
 

@@ -1,5 +1,6 @@
 <?php
-require_once('prowl.php');
+//This example is useful for integrating with other scripts
+require_once('inc/prowl.inc');
 
 $prowl = new Prowl();
 
